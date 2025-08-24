@@ -1,0 +1,33 @@
+{
+    "oneletrajz": {
+        "profil": "Tömör, dinamikus összefoglaló a jelentkező tapasztalatáról és képességeiről, az álláshirdetéshez igazítva.",
+        "nev": "string",
+        "szakma": "string",
+        "email": "string",
+        "mobilszam": "string",
+        "hely": "Budapest",
+        "kepessegek": "[string]",
+        "tanulmanyok": [
+            {
+                "vegzettseg": "string",
+                "kepzes_helye": "string",
+                "zaro_datum": "string",
+                "leiras": "string"
+            }
+        ],
+        "tapasztalat": [
+            {
+                "munkahely": "string",
+                "pozicio": "string",
+                "kezdes": "string",
+                "zaras": "string",
+                "leiras": "string"
+            }
+        ]
+    },
+    "motivacios_level": {
+        "megszolitas": "Tisztelt xy",
+        "level_torzse": "level tartalom",
+        "elkoszones": "string"
+    }
+}

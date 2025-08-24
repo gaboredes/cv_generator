@@ -1,0 +1,25 @@
+{
+    "monogram": "string",
+    "teljesnev": "string",
+    "szakma": "string",
+    "onlinelink": "string",
+    "celkituzes": "string",
+    "kepzettsegek": "[string]",
+    "tapasztalat": [
+        {
+            "beosztas": "string",
+            "cegnev": "string",
+            "kezdodatum": "string",
+            "zarodatum": "string",
+            "leiras": "string"
+        }
+    ],
+    "tanulmanyok": [
+        {
+            "vegzettseg": "string",
+            "zarodatum": "string",
+            "intezmeny": "string",
+            "leiras": "string"
+        }
+    ]
+}

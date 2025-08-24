@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Édes Gábor Önéletrajza</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Alapvető stílusok a modern megjelenéshez */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Nyomtatási stílusok az A4-es oldal optimalizálásához */
+        @page {
+            size: A4;
+            /*margin: 20mm;*/
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem; /* Frissítve: Tailwind p-8 (2rem) */
+            box-sizing: border-box;
+            line-height: 1.5; /* Enyhén csökkentve a sor magassága */
+            color: #333;
+            /*margin: 20px auto;*/
+        }
+        
+        .section-title {
+            color: #2c5282;
+            font-size: 1.25rem; /* Kisebb címek */
+            border-bottom: 2px solid #2c5282;
+            padding-bottom: 5px;
+            margin-top: 20px; /* Csökkentett margó */
+            margin-bottom: 10px; /* Csökkentett margó */
+            text-transform: uppercase;
+        }
+        .experience-item, .education-item {
+            margin-bottom: 15px; /* Csökkentett margó */
+        }
+        .experience-item:last-child, .education-item:last-child {
+            margin-bottom: 0;
+        }
+        .job-title, .degree {
+            font-weight: 600;
+            color: #1a202c;
+        }
+        .company, .institution {
+            font-style: italic;
+            color: #4a5568;
+        }
+        .date-range {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+        .description {
+            margin-top: 5px;
+            color: #4a5568;
+            font-size: 0.875rem; /* Kisebb betűméret */
+        }
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px; /* Csökkentett rés */
+            list-style: none;
+            padding: 0;
+        }
+        .skills-list li {
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            padding: 4px 10px; /* Csökkentett kitöltés */
+            font-size: 0.75rem; /* Kisebb betűméret */
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="page">
+        <!-- Fejléc -->
+         <header class="text-center p-8 bg-gray-900 text-white -mx-8 -mt-8 mb-6 shadow-md">
+            <h1 class="text-4xl font-extrabold mb-1">Édes Gábor</h1>
+            <h2 class="text-xl font-medium text-gray-300">Webfejlesztő</h2>
+            <div class="flex justify-center items-center mt-3 text-sm text-gray-400">
+                <span class="mx-2">info@edesgabor.hu</span> |
+                <span class="mx-2">+36 30 629 9620</span> |
+                <span class="mx-2">Budapest, Magyarország</span>
+            </div>
+        </header>
+
+        <!-- Összegzés -->
+        <section class="mb-6">
+            <h3 class="section-title">Rövid összefoglaló</h3>
+            <p class="text-sm text-gray-700">Dinamikus és eredményorientált webfejlesztő, több éves tapasztalattal webshop fejlesztés és karbantartás terén.  Jártas vagyok a WordPress, PHP, és SQL technológiákban, valamint a logisztikai folyamatok optimalizálásában.  Kész vagyok önállóan és csapatban is dolgozni, hogy a BOGYISZ Kft. online jelenlétét továbbfejlesszem.</p>
+        </section>
+        <hr class="my-6 border-gray-200">
+
+        <!-- Tapasztalatok -->
+        <section class="mb-6">
+            <h3 class="section-title">Szakmai tapasztalatok</h3>
+            <div id="tapasztalatok-container">
+                        <div>
+            <h3 class="text-xl font-semibold text-gray-700">Webshop koordinátor</h3>
+            <p class="text-gray-500 font-medium">Whiskynet Kft. | 2024.  - Jelenleg</p>
+            <p class="mt-2 text-gray-600">API integrációk (Meta Ads, Google Ads, Wolt, Shoprenter) kezelése és fejlesztése. Automatizált jelentéskészítés és készletfrissítés implementálása. Törzsvásárlói rendszer fejlesztése és karbantartása. SQL lekérdezések írásával és optimalizálásával javítottam a hatékonyságot.  Egyedi Chrome plugin fejlesztése a munkafolyamatok egyszerűsítésére.</p>
+        </div>
+      
+        <div>
+            <h3 class="text-xl font-semibold text-gray-700">Mérnök munkatárs</h3>
+            <p class="text-gray-500 font-medium">Harman Becker Kft. | 2022. - 2024.</p>
+            <p class="mt-2 text-gray-600">Világszinten elérhető mérnöki adatbázis fejlesztése és karbantartása. Automatizált email értesítések létrehozása. Riportgenerátor fejlesztése, ami heti 3 órányi időmegtakarítást eredményezett. 3D nyomtató kezelése és beszállítói kapcsolatok menedzselése.</p>
+        </div>
+      
+            </div>
+        </section>
+        <hr class="my-6 border-gray-200">
+
+        <!-- Végzettségek -->
+        <section class="mb-6">
+            <h3 class="section-title">Tanulmányok</h3>
+            <div id="vegzettsegek-container">
+                        <div>
+            <h3 class="text-xl font-semibold text-gray-700">Műszaki menedzser BSc</h3>
+            <p class="text-gray-500 font-medium">Óbudai Egyetem | 2024.</p>
+            <p class="mt-2 text-gray-600"></p>
+        </div>
+      
+        <div>
+            <h3 class="text-xl font-semibold text-gray-700">Webfejlesztő tanúsítvány</h3>
+            <p class="text-gray-500 font-medium">freeCodeCamp.org | 2023, 2024</p>
+            <p class="mt-2 text-gray-600"></p>
+        </div>
+      
+            </div>
+        </section>
+        <hr class="my-6 border-gray-200">
+
+        <!-- Képességek -->
+        <section>
+            <h3 class="section-title">Képességek</h3>
+            <ul class="skills-list">
+                <li>PHP</li>
+<li>JavaScript</li>
+<li>HTML</li>
+<li>CSS</li>
+<li>SQL</li>
+<li>WordPress</li>
+<li>Shoprenter</li>
+<li>Google Ads</li>
+<li>Meta Ads</li>
+<li>Wolt API integráció</li>
+<li>PostgreSQL</li>
+<li>MongoDB</li>
+<li>Git</li>
+<li>GitHub</li>
+<li>Excel</li>
+<li>Automatizált jelentéskészítés</li>
+<li>Chrome plugin fejlesztés</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
