@@ -11,7 +11,12 @@ class PdfPreviewViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     if (filePath != null) {
       return Container(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.symmetric(
+          vertical: 0.0,
+          horizontal: MediaQuery.of(context).size.width > 600
+              ? MediaQuery.of(context).size.width / 4
+              : 0.0,
+        ),
         child: SfPdfViewer.file(File(filePath!)),
       );
     } else {

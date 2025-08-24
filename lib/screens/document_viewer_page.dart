@@ -260,8 +260,8 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
     });
   }
 
-  Future _showEditorSheet(int tabIndex) {
-    return showModalBottomSheet(
+  void _showEditorSheet(int tabIndex) {
+    showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
@@ -272,7 +272,8 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
           child: SizedBox(
             height:
                 MediaQuery.of(context).size.height *
-                0.7, // Adjust height as needed
+                0.95, // Adjust height as needed
+            width: MediaQuery.of(context).size.width * 0.95,
             child: tabIndex == 0
                 ? CvEditor(
                     oneletrajz: _currentDocuments.oneletrajz,
@@ -342,26 +343,28 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
             Expanded(
               child: TabBarView(
                 children: [
-                  Row(
+                  Column(
                     children: [
-                      Expanded(
-                        child: CvEditor(
-                          oneletrajz: _currentDocuments.oneletrajz,
-                          onChanged: _updateCvData,
-                        ),
+                      TextButton(
+                        onPressed: () async {
+                          _showEditorSheet(0);
+                        },
+                        child: Text("Szerkesztés"),
                       ),
                       Expanded(
-                        child: PdfPreviewViewer(filePath: _savedCvPdfPath),
+                        child: Center(
+                          child: PdfPreviewViewer(filePath: _savedCvPdfPath),
+                        ),
                       ),
                     ],
                   ),
-                  Row(
+                  Column(
                     children: [
-                      Expanded(
-                        child: CoverLetterEditor(
-                          coverLetter: _currentDocuments.motivaciosLevel,
-                          onChanged: _updateCoverLetter,
-                        ),
+                      TextButton(
+                        onPressed: () async {
+                          _showEditorSheet(1);
+                        },
+                        child: Text("Szerkesztés"),
                       ),
                       Expanded(
                         child: PdfPreviewViewer(
