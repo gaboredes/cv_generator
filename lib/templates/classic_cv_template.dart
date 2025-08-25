@@ -55,7 +55,7 @@ class ClassicCvTemplate {
             padding: pw.EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
             child: _buildSectionPdf(
               font,
-              'Rövid összefoglaló',
+              'Összefoglaló',
               pw.Text(
                 oneletrajz.osszegzes,
                 style: pw.TextStyle(

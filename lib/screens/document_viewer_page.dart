@@ -133,12 +133,12 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
       final pdfCoverLetterBytes = await _generatePdfData(1);
 
       //await cvFile.writeAsBytes(pdfCvBytes);
-      String? cvFilePath = await FileService.savePdfDocument(
+      String? cvFilePath = await FileService().savePdfDocument(
         pdfCvBytes,
         "${_currentDocuments.oneletrajz.allasEsCegFileNevSzeruen}-oneletrajz.pdf",
       );
       //await coverLetterFile.writeAsBytes(pdfCoverLetterBytes);
-      String? coverLetterFilePath = await FileService.savePdfDocument(
+      String? coverLetterFilePath = await FileService().savePdfDocument(
         pdfCoverLetterBytes,
         "${_currentDocuments.oneletrajz.allasEsCegFileNevSzeruen}-motivacios_level.pdf",
       );
@@ -262,6 +262,7 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
 
   void _showEditorSheet(int tabIndex) {
     showModalBottomSheet(
+      sheetAnimationStyle: AnimationStyle(duration: Duration(seconds: 1)),
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
@@ -280,7 +281,6 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
                     onChanged: (updatedCv) {
                       _updateCvData(updatedCv);
                       // A PDF generálása az adatok frissítése után
-                      _generateAndSavePdfs();
                     },
                   )
                 : CoverLetterEditor(
@@ -288,7 +288,6 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
                     onChanged: (updatedText) {
                       _updateCoverLetter(updatedText);
                       // A PDF generálása az adatok frissítése után
-                      _generateAndSavePdfs();
                     },
                   ),
           ),
@@ -302,7 +301,6 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(icon: const Icon(Icons.edit), onPressed: () {}),
           IconButton(
             onPressed: _showColorPicker,
             icon: const Icon(Icons.color_lens),
@@ -342,6 +340,7 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
             ),
             Expanded(
               child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   Column(
                     children: [

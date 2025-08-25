@@ -36,7 +36,7 @@ class _CvEditorState extends State<CvEditor> {
     widget.onChanged(_localOneletrajz);
   }
 
-  void _removeExperience(Experience experience) {
+  /*void _removeExperience(Experience experience) {
     final updatedList = List.of(_localOneletrajz.tapasztalatok);
     updatedList.remove(experience);
     setState(() {
@@ -45,9 +45,10 @@ class _CvEditorState extends State<CvEditor> {
     _updateAndNotify();
   }
 
-  void _removeEducation(Education education) {
+  void _removeEducation(int index) {
     final updatedList = List.of(_localOneletrajz.vegzettsegek);
-    updatedList.remove(education);
+    updatedList;
+    updatedList.removeAt(index);
     setState(() {
       _localOneletrajz = _localOneletrajz.copyWith(vegzettsegek: updatedList);
     });
@@ -61,7 +62,7 @@ class _CvEditorState extends State<CvEditor> {
       _localOneletrajz = _localOneletrajz.copyWith(kepessegek: updatedList);
     });
     _updateAndNotify();
-  }
+  }*/
 
   Widget _buildTextField(
     String label,
@@ -224,10 +225,10 @@ class _CvEditorState extends State<CvEditor> {
                       ],
                     ),
                   ),
-                  IconButton(
+                  /*IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () => _removeExperience(exp),
-                  ),
+                  ),*/
                 ],
               ),
             );
@@ -291,10 +292,10 @@ class _CvEditorState extends State<CvEditor> {
                       ],
                     ),
                   ),
-                  IconButton(
+                  /*IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => _removeEducation(edu),
-                  ),
+                    onPressed: () => _removeEducation(index),
+                  ),*/
                 ],
               ),
             );
@@ -328,7 +329,7 @@ class _CvEditorState extends State<CvEditor> {
                     },
                   ),
                 ),
-                onDeleted: () => _removeSkill(skill),
+                /*onDeleted: () => _removeSkill(skill),*/
               );
             }).toList(),
           ),
