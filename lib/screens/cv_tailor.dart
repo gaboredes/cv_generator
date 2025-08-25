@@ -56,36 +56,42 @@ class _CvTailorScreenState extends State<CvTailorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('CV Generálás')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _jobAdController,
-              maxLines: 30,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Illeszd be az álláshirdetés szövegét',
-                hintText: 'Pl. "Senior Flutter fejlesztőt keresünk, ..."',
+    return GestureDetector(
+      onTap: () {
+        // A fókusz elvétele az aktuális mezőről
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text('CV Generálás')),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                controller: _jobAdController,
+                maxLines: 30,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Illeszd be az álláshirdetés szövegét',
+                  hintText: 'Pl. "Senior Flutter fejlesztőt keresünk, ..."',
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: isLoading ? null : _generateDocuments,
-              child: isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text('Generálás'),
-            ),
-            const SizedBox(height: 24),
-            if (_errorMessage != null)
-              Text(
-                'Hiba: $_errorMessage',
-                style: const TextStyle(color: Colors.red),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: isLoading ? null : _generateDocuments,
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : const Text('Generálás'),
               ),
-          ],
+              const SizedBox(height: 24),
+              if (_errorMessage != null)
+                Text(
+                  'Hiba: $_errorMessage',
+                  style: const TextStyle(color: Colors.red),
+                ),
+            ],
+          ),
         ),
       ),
     );

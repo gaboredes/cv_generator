@@ -175,71 +175,77 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Önéletrajz profil generálása')),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _pickFile,
-                      child: const Text('Önéletrajz feltöltése (Word/PDF)'),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: _isGenerating ? null : _generateBaseDocument,
-                    child: _isGenerating
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Text('Generálás'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              if (_uploadedFiles.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: () {
+        // A fókusz elvétele az aktuális mezőről
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Önéletrajz profil generálása')),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
                   children: [
-                    const Text(
-                      'Kiválasztott fájlok:',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                    ..._uploadedFiles.map(
-                      (file) => Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text('- ${file.name}'),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: _pickFile,
+                        child: const Text('Önéletrajz feltöltése (Word/PDF)'),
                       ),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: _isGenerating ? null : _generateBaseDocument,
+                      child: _isGenerating
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Text('Generálás'),
                     ),
                   ],
                 ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _documentController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Önéletrajz profil',
-                  alignLabelWithHint: true,
+                const SizedBox(height: 8),
+                if (_uploadedFiles.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Kiválasztott fájlok:',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                      ..._uploadedFiles.map(
+                        (file) => Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text('- ${file.name}'),
+                        ),
+                      ),
+                    ],
+                  ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _documentController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Önéletrajz profil',
+                    alignLabelWithHint: true,
+                  ),
+                  maxLines: null,
+                  minLines: 30,
+                  textAlignVertical: TextAlignVertical.top,
                 ),
-                maxLines: null,
-                minLines: 30,
-                textAlignVertical: TextAlignVertical.top,
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton.icon(
-                onPressed: _saveDocument,
-                icon: const Icon(Icons.save),
-                label: const Text('Változtatások mentése'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: _saveDocument,
+                  icon: const Icon(Icons.save),
+                  label: const Text('Változtatások mentése'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
