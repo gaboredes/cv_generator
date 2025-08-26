@@ -1,5 +1,5 @@
 // MainActivity.kt
-package com.example.cv_generator
+package com.gedes.cv.generator
 
 import android.content.Intent
 import android.net.Uri
@@ -12,7 +12,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.io.File
 
 class MainActivity: FlutterActivity() {
-    private val CHANNEL = "com.example.cv_generator/file_manager"
+    private val CHANNEL = "com.gedes.cv.generator/file_manager"
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

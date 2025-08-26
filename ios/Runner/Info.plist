@@ -47,5 +47,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>A CV generáláshoz kell, hogy a fotókönyváradhoz az app hozzáférjen.</string>
 </dict>
 </plist>
