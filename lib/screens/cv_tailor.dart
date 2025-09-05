@@ -10,7 +10,8 @@ class CvTailorScreen extends StatefulWidget {
   State<CvTailorScreen> createState() => _CvTailorScreenState();
 }
 
-class _CvTailorScreenState extends State<CvTailorScreen> {
+class _CvTailorScreenState extends State<CvTailorScreen>
+    with AutomaticKeepAliveClientMixin {
   final _jobAdController = TextEditingController();
   bool isLoading = false;
   String? _errorMessage;
@@ -49,6 +50,9 @@ class _CvTailorScreenState extends State<CvTailorScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void dispose() {
     _jobAdController.dispose();
     super.dispose();
@@ -56,6 +60,7 @@ class _CvTailorScreenState extends State<CvTailorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return GestureDetector(
       onTap: () {
         // A fókusz elvétele az aktuális mezőről

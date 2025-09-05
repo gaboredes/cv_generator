@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cv_generator/screens/gemini_key.dart';
-import 'package:cv_generator/screens/base_document.dart';
+import 'package:cv_generator/screens/profile.dart';
 import 'package:cv_generator/screens/cv_tailor.dart';
+import '../models/generalt_dokumentumok.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -24,13 +25,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   late final List<Widget> _screens;
+  late GeneraltDokumentumok documents;
 
   @override
   void initState() {
     super.initState();
     _screens = [
       const GeminiKeyScreen(),
-      const BaseDocumentScreen(),
+      const ProfileScreen(),
       CvTailorScreen(),
     ];
   }
@@ -58,17 +60,11 @@ class _MyAppState extends State<MyApp> {
           currentIndex: _selectedIndex,
           onTap: _navigateBottomBar,
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.key),
-              label: 'Gemini kulcs',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.key), label: 'AI kulcs'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
             BottomNavigationBarItem(
               icon: Icon(Icons.document_scanner),
-              label: 'Önéletrajz profil',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.edit_document),
-              label: 'CV Generálás',
+              label: 'Generálás',
             ),
           ],
         ),

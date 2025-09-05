@@ -41,24 +41,23 @@ class GeminiService {
         """
       A következő nyers önéletrajz szöveg és álláshirdetés alapján végezd el a következő feladatokat:
       1. Strukturáld a nyers önéletrajz szövegben található adatokat egy JSON objektumba.
-      2. Generálj egy új önéletrajz összefoglalót, amely illeszkedik az álláshirdetéshez.
       3. Generálj egy motivációs levelet az álláshirdetéshez igazítva.
       Fokozottan ügyelj arra, hogy csak azt a végzettséget, képességet, munkatapasztalatot stb írd bele, ami a pozíció szempontjából releváns A munkatapasztalatok és tanulmányok leírását is úgy fogalmazd meg, hogy az álláshirdetés szempontjából releváns tartalom kerüljön csak bele. 
       Olyan dolgot ne írj le, ami nem szerepel egyátalán az önéletrajz szövegben, mert azzal hitelteleníted az önéletrajzot.
       A motívációs levélben ne írj a végzettségről és munkatapasztalatokról. Inkább emeld ki azt, miért szeretnél ott dolgozni, mi az ami szimpatikus a cégben. Mindezt az álláshirdetés alapján, ne pedig alaptalanul.
+      A képességeknél soft skilleket is sorolj fel.
       Őrizd meg a szöveg alapján a kommunikációs stílusát, szóhasználatát a jelentkezőnek.
+      Az önéletrajzban kerek mondatok helyett használj vázlatpontokat. Max 5 vázlatpont legyen minden tapasztalatnál.
       egyes szám első személyben fogalmazz, mintha magadról írnád és ne fényezd túl a pályázót.
       
       A válaszodnak egyetlen JSON objektumnak kell lennie, a következő pontosan meghatározott struktúrával:
       
       ```json
       {
-        "oneletrajz_osszegzes": "string",
         "motivacios_level": "string",
         "kinyert_adatok": {
           "allasEsCegFileNevSzeruen": "string",
           "teljesnev": "string",
-          "szakmaiCim": "string",
           "email": "string",
           "telefonszam": "string",
           "lakcim": "string",

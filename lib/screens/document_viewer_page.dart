@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cv_generator/services/file_service.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart'; // Hozzáadva a hiányzó import
@@ -16,15 +18,15 @@ import '../widgets/pdf_preview_viewer.dart';
 
 class DocumentViewerPage extends StatefulWidget {
   final GeneraltDokumentumok documents;
-
   const DocumentViewerPage({super.key, required this.documents});
-
   @override
   State<DocumentViewerPage> createState() => _DocumentViewerPageState();
 }
 
-class _DocumentViewerPageState extends State<DocumentViewerPage> {
+class _DocumentViewerPageState extends State<DocumentViewerPage>
+    with AutomaticKeepAliveClientMixin {
   late GeneraltDokumentumok _currentDocuments;
+  final _fileservice = FileService();
   Color _selectedColor = Color(0xff111827);
   bool _isGeneratingPdf = false;
   bool _isFontLoaded = false;
@@ -32,6 +34,8 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
 
   String? _savedCvPdfPath;
   String? _savedCoverLetterPdfPath;
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -72,6 +76,8 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
   }
 
   Future<Uint8List> _generatePdfData(int tabIndex) async {
+    File? profileImg = await _fileservice.getProfileImage();
+
     if (!_isFontLoaded) {
       return Uint8List(0);
     }
@@ -81,7 +87,8 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
         pw.Page(
           pageFormat: PdfPageFormat.a4,
           margin: pw.EdgeInsets.zero,
-          build: (pw.Context context) => ClassicCvTemplate.buildPdf(
+          build: (pw.Context context) => ClassicCvTemplate().buildPdf(
+            profileImage: profileImg,
             oneletrajz: _currentDocuments.oneletrajz,
             szin: _selectedColor,
             font: _font,
@@ -298,6 +305,7 @@ class _DocumentViewerPageState extends State<DocumentViewerPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         actions: [

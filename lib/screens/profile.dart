@@ -1,19 +1,21 @@
+import 'package:cv_generator/widgets/profile_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:cv_generator/services/generate_basedocument.dart';
 import 'package:cv_generator/services/file_service.dart';
 import 'package:cv_generator/services/key_storage_service.dart';
 
-class BaseDocumentScreen extends StatefulWidget {
-  const BaseDocumentScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<BaseDocumentScreen> createState() => _BaseDocumentScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with AutomaticKeepAliveClientMixin {
   final TextEditingController _documentController = TextEditingController();
-  final GenerateBaseDocument _geminiApiService = GenerateBaseDocument();
+  final GenerateProfile _geminiApiService = GenerateProfile();
   final FileService _fileService = FileService();
   final KeyStorageService _keyStorageService = KeyStorageService();
   bool _isGenerating = false;
@@ -30,16 +32,45 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
       setState(() {
         _uploadedFiles = result.files.toList();
       });
-      _showSnackBar('${_uploadedFiles.length} fájl kiválasztva.');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(hours: 1),
+          content: const Text('Fájlok kiválasztva.'),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
+      return;
     } else {
-      _showSnackBar('Nem lettek fájlok kiválasztva.');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(hours: 1),
+          content: const Text('Nem lettek fájlok kiválasztva.'),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
+      return;
     }
   }
 
   // A dokumentum generálása a Gemini API segítségével
-  Future<void> _generateBaseDocument() async {
+  Future<void> _generateProfile() async {
     if (_uploadedFiles.isEmpty) {
-      _showSnackBar('Kérlek, válassz ki legalább egy önéletrajz fájlt előbb.');
+      _showSnackBar(
+        'Kérlek, válassz ki legalább egy önéletrajz fájlt előbb.',
+        context,
+      );
       return;
     }
 
@@ -49,8 +80,20 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
 
     String? apiKey = await _keyStorageService.readKey();
     if (apiKey == null) {
-      _showSnackBar(
-        'Nincs Gemini API kulcs mentve. Kérlek, add meg a Főoldalon!',
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(hours: 1),
+          content: const Text(
+            'Nincs Gemini API kulcs mentve. Kérlek, add meg az AI kulcs menüpontban!',
+          ),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
       );
       setState(() {
         _isGenerating = false;
@@ -63,15 +106,24 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
     try {
       for (var file in _uploadedFiles) {
         cvContent += await _fileService.readContentFromDocument(file);
-        cvContent += '\n\n'; // Elválasztja a különböző fájlok tartalmát
+        cvContent += '\n\n';
       }
     } catch (e) {
-      // Ha a fájl olvasása közben hiba történik (pl. Word fájl feltöltése),
-      // akkor itt kapjuk el, és értesítjük a felhasználót.
-      _showSnackBar(
-        e.toString().replaceFirst('Exception: ', ''),
-        isError: true,
-      ); // Hibaüzenet jelölése
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(hours: 1),
+          content: Text(
+            "Hiba: ${e.toString().replaceFirst('Exception: ', '')}",
+          ),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
       setState(() {
         _isGenerating = false;
       });
@@ -88,10 +140,36 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
         prompt,
       );
       _documentController.text = generatedText;
-      _showSnackBar('Önéletrajz profil generálva a Gemini AI segítségével!');
       await _saveDocument();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Önéletrajz profil generálva a Gemini AI segítségével!',
+          ),
+          duration: Duration(hours: 1),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
     } catch (e) {
-      _showSnackBar('Hiba történt a generálás során: $e', isError: true);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Hiba történt a generálás során: $e'),
+          duration: Duration(hours: 1),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
     } finally {
       setState(() {
         _isGenerating = false;
@@ -102,7 +180,7 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
   // A dokumentum mentése
   Future<void> _saveDocument() async {
     if (_documentController.text.isEmpty) {
-      _showSnackBar('A dokumentum üres, nem menthető.');
+      _showSnackBar('A dokumentum üres, nem menthető.', context);
       return;
     }
 
@@ -111,17 +189,34 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
         _documentController.text,
         "generalt_oneletrajz.txt",
       );
-      _showSnackBar('Dokumentum mentve: $filePath');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Dokumentum mentve: $filePath'),
+          duration: Duration(hours: 1),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
     } catch (e) {
       _showSnackBar(
         e.toString().replaceFirst('Exception: ', ''),
+        context,
         isError: true,
       );
     }
   }
 
   // Visszajelzést adó snackbar
-  void _showSnackBar(String message, {bool isError = false}) {
+  void _showSnackBar(
+    String message,
+    BuildContext context, {
+    bool isError = false,
+  }) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -144,6 +239,9 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
     _loadSavedDocument();
@@ -157,12 +255,33 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
         setState(() {
           _documentController.text = content;
         });
-        _showSnackBar('Korábbi dokumentum sikeresen betöltve.');
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Korábbi dokumentum sikeresen betöltve.'),
+            duration: Duration(hours: 1),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+            ),
+          ),
+        );
       }
     } catch (e) {
-      _showSnackBar(
-        e.toString().replaceFirst('Exception: ', ''),
-        isError: true,
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+          duration: Duration(hours: 1),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
       );
     }
   }
@@ -175,6 +294,7 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return GestureDetector(
       onTap: () {
         // A fókusz elvétele az aktuális mezőről
@@ -188,6 +308,7 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                ProfileWidget(),
                 Row(
                   children: [
                     Expanded(
@@ -198,7 +319,7 @@ class _BaseDocumentScreenState extends State<BaseDocumentScreen> {
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton(
-                      onPressed: _isGenerating ? null : _generateBaseDocument,
+                      onPressed: _isGenerating ? null : _generateProfile,
                       child: _isGenerating
                           ? const SizedBox(
                               width: 20,

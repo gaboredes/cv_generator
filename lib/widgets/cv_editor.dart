@@ -111,10 +111,6 @@ class _CvEditorState extends State<CvEditor> {
             _localOneletrajz = _localOneletrajz.copyWith(teljesnev: value);
             _updateAndNotify();
           }),
-          _buildTextField('Szakmai Cím', _localOneletrajz.szakmaiCim, (value) {
-            _localOneletrajz = _localOneletrajz.copyWith(szakmaiCim: value);
-            _updateAndNotify();
-          }),
           _buildTextField('Email', _localOneletrajz.email, (value) {
             _localOneletrajz = _localOneletrajz.copyWith(email: value);
             _updateAndNotify();
@@ -127,14 +123,6 @@ class _CvEditorState extends State<CvEditor> {
             _localOneletrajz = _localOneletrajz.copyWith(lakcim: value);
             _updateAndNotify();
           }),
-          const SizedBox(height: 20),
-          _buildSectionHeader('Összefoglaló'),
-          _buildTextField('Rövid összefoglaló', _localOneletrajz.osszegzes, (
-            value,
-          ) {
-            _localOneletrajz = _localOneletrajz.copyWith(osszegzes: value);
-            _updateAndNotify();
-          }, maxLines: 5),
           const SizedBox(height: 20),
           _buildSectionHeader('Szakmai tapasztalatok'),
           ..._localOneletrajz.tapasztalatok.asMap().entries.map((entry) {

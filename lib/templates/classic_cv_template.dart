@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cv_generator/models/oneletrajz_adatok.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
@@ -10,7 +12,20 @@ extension HexColor on Color {
 }
 
 class ClassicCvTemplate {
-  static pw.Widget buildPdf({
+  pw.Widget profileImg(File? profileImage) {
+    if (profileImage != null) {
+      return pw.Image(
+        fit: pw.BoxFit.contain,
+        width: 100,
+        height: 100,
+        pw.MemoryImage(profileImage.readAsBytesSync()),
+      );
+    }
+    return pw.SizedBox();
+  }
+
+  pw.Widget buildPdf({
+    required File? profileImage,
     required OneletrajzAdatok oneletrajz,
     required Color szin,
     required pw.Font font,
@@ -27,47 +42,74 @@ class ClassicCvTemplate {
             width: double.infinity,
             padding: const pw.EdgeInsets.all(16.24),
             decoration: pw.BoxDecoration(color: accentColor),
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.center,
+            child: pw.Row(
               children: [
-                pw.Text(
-                  oneletrajz.teljesnev,
-                  style: pw.TextStyle(
-                    fontSize: 28,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.white,
-                  ),
+                pw.Padding(
+                  padding: pw.EdgeInsets.only(right: 12.0),
+                  child: profileImg(profileImage),
                 ),
-                pw.Text(
-                  oneletrajz.szakmaiCim,
-                  style: pw.TextStyle(fontSize: 16, color: PdfColors.white),
-                ),
-                pw.SizedBox(height: 12),
-                pw.Text(
-                  '${oneletrajz.email} | ${oneletrajz.telefonszam} | ${oneletrajz.lakcim}',
-                  style: pw.TextStyle(fontSize: 12, color: PdfColors.white),
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  mainAxisAlignment: pw.MainAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      oneletrajz.teljesnev,
+                      style: pw.TextStyle(
+                        fontSize: 28,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColors.white,
+                      ),
+                    ),
+                    pw.SizedBox(height: 12),
+                    pw.Text(
+                      oneletrajz.email,
+                      style: pw.TextStyle(fontSize: 12, color: PdfColors.white),
+                    ),
+                    pw.Text(
+                      oneletrajz.telefonszam,
+                      style: pw.TextStyle(fontSize: 12, color: PdfColors.white),
+                    ),
+                    pw.Text(
+                      oneletrajz.lakcim,
+                      style: pw.TextStyle(fontSize: 12, color: PdfColors.white),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
           pw.SizedBox(height: 24),
           pw.Padding(
-            padding: pw.EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+            padding: pw.EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
             child: _buildSectionPdf(
               font,
-              'Összefoglaló',
-              pw.Text(
-                oneletrajz.osszegzes,
-                style: pw.TextStyle(
-                  fontSize: 12,
-                  color: PdfColor.fromHex('#333333'),
-                ),
+              'Képességek',
+              pw.Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: oneletrajz.kepessegek.map((skill) {
+                  return pw.Container(
+                    padding: const pw.EdgeInsets.symmetric(
+                      horizontal: 0, //8,
+                      vertical: 4,
+                    ),
+                    decoration: pw.BoxDecoration(
+                      color: PdfColor.fromHex('#F2F3F4'),
+                      borderRadius: pw.BorderRadius.circular(8),
+                    ),
+                    child: pw.Text(
+                      skill,
+                      style: pw.TextStyle(color: accentColor, fontSize: 8),
+                    ),
+                  );
+                }).toList(),
               ),
               accentColor,
             ),
           ),
+
           pw.Padding(
-            padding: pw.EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+            padding: pw.EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
             child: _buildSectionPdf(
               font,
               'Szakmai tapasztalatok',
@@ -110,7 +152,7 @@ class ClassicCvTemplate {
             ),
           ),
           pw.Padding(
-            padding: pw.EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+            padding: pw.EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
             child: _buildSectionPdf(
               font,
               'Tanulmányok',
@@ -152,34 +194,6 @@ class ClassicCvTemplate {
               accentColor,
             ),
           ),
-          pw.Padding(
-            padding: pw.EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-            child: _buildSectionPdf(
-              font,
-              'Képességek',
-              pw.Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: oneletrajz.kepessegek.map((skill) {
-                  return pw.Container(
-                    padding: const pw.EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: pw.BoxDecoration(
-                      color: PdfColor.fromHex('#F2F3F4'),
-                      borderRadius: pw.BorderRadius.circular(8),
-                    ),
-                    child: pw.Text(
-                      skill,
-                      style: pw.TextStyle(color: accentColor, fontSize: 8),
-                    ),
-                  );
-                }).toList(),
-              ),
-              accentColor,
-            ),
-          ),
         ],
       ),
     );
@@ -193,6 +207,7 @@ class ClassicCvTemplate {
   ) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
+      mainAxisAlignment: pw.MainAxisAlignment.start,
       children: [
         pw.Text(
           title.toUpperCase(),

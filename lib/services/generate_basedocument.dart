@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class GenerateBaseDocument {
+class GenerateProfile {
   Future<String> generateText(String apiKey, String prompt) async {
     final response = await http.post(
       Uri.parse(

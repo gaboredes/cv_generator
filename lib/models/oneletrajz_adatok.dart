@@ -3,11 +3,9 @@
 class OneletrajzAdatok {
   final String allasEsCegFileNevSzeruen;
   final String teljesnev;
-  final String szakmaiCim;
   final String email;
   final String telefonszam;
   final String lakcim;
-  String osszegzes;
   final List<String> kepessegek;
   final List<Experience> tapasztalatok;
   final List<Education> vegzettsegek;
@@ -15,11 +13,9 @@ class OneletrajzAdatok {
   OneletrajzAdatok({
     required this.allasEsCegFileNevSzeruen,
     required this.teljesnev,
-    required this.szakmaiCim,
     required this.email,
     required this.telefonszam,
     required this.lakcim,
-    required this.osszegzes,
     required this.kepessegek,
     required this.tapasztalatok,
     required this.vegzettsegek,
@@ -43,11 +39,9 @@ class OneletrajzAdatok {
     return OneletrajzAdatok(
       allasEsCegFileNevSzeruen: json['allasEsCegFileNevSzeruen'],
       teljesnev: json['teljesnev'],
-      szakmaiCim: json['szakmaiCim'],
       email: json['email'],
       telefonszam: json['telefonszam'],
       lakcim: json['lakcim'],
-      osszegzes: json['osszegzes'],
       kepessegek: skills,
       tapasztalatok: experiences,
       vegzettsegek: education,
@@ -58,11 +52,9 @@ class OneletrajzAdatok {
   Map<String, dynamic> toJson() {
     return {
       'teljesnev': teljesnev,
-      'szakmaiCim': szakmaiCim,
       'email': email,
       'telefonszam': telefonszam,
       'lakcim': lakcim,
-      'osszegzes': osszegzes,
       'kepessegek': kepessegek,
       'tapasztalatok': tapasztalatok.map((e) => e.toJson()).toList(),
       'vegzettsegek': vegzettsegek.map((e) => e.toJson()).toList(),
@@ -83,11 +75,9 @@ class OneletrajzAdatok {
     return OneletrajzAdatok(
       allasEsCegFileNevSzeruen: allasEsCegFileNevSzeruen,
       teljesnev: teljesnev ?? this.teljesnev,
-      szakmaiCim: szakmaiCim ?? this.szakmaiCim,
       email: email ?? this.email,
       telefonszam: telefonszam ?? this.telefonszam,
       lakcim: lakcim ?? this.lakcim,
-      osszegzes: osszegzes ?? this.osszegzes,
       kepessegek: kepessegek ?? this.kepessegek,
       tapasztalatok: tapasztalatok ?? this.tapasztalatok,
       vegzettsegek: vegzettsegek ?? this.vegzettsegek,

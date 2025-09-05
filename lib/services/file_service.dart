@@ -53,7 +53,6 @@ class FileService {
 
       final file = File('${cvGeneratorDirectory.path}/$fileName');
       await file.writeAsString(content);
-      await copyToDownloads(fileName: fileName);
       return file.path;
     } catch (e) {
       throw Exception('Hiba a file mentése közben: $e');
@@ -69,7 +68,6 @@ class FileService {
       final filePath = '${cvGeneratorDirectory.path}/$fileName';
       final file = File(filePath);
       await file.writeAsBytes(content);
-      await copyToDownloads(fileName: fileName);
       bool? success = await copyFileIntoDownloadFolder(
         filePath,
         basenameWithoutExtension(filePath),
@@ -112,13 +110,47 @@ class FileService {
   static Future<Directory> _getDocumentsDirectory() async {
     return await getApplicationDocumentsDirectory();
   }
-}
 
-Future<void> copyToDownloads({required String fileName}) async {}
+  void openDownloadContentFolder() async {
+    bool success = await openDownloadFolder();
+    if (!success) {
+      throw Exception("Letöltési mappa megnyitása nem sikerült.");
+    }
+  }
 
-void openDownloadContentFolder() async {
-  bool success = await openDownloadFolder();
-  if (!success) {
-    throw Exception("Letöltési mappa megnyitása nem sikerült.");
+  Future<String?> setProfilePicture() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: false,
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      try {
+        final pickedFile = result.files.first;
+        final File file = File(pickedFile.path!);
+        final Directory appDocumentsDir =
+            await getApplicationDocumentsDirectory();
+        final String appDocumentsPath = appDocumentsDir.path;
+        final String newPath = '$appDocumentsPath/onarckep.jpg';
+        final File savedFile = await file.copy(newPath);
+        return 'A fájl sikeresen elmentve a következő helyre: ${savedFile.path}';
+      } catch (e) {
+        return 'Hiba történt a fájl mentése során: $e';
+      }
+    } else {
+      // A felhasználó nem választott ki fájlt.
+      return 'Nem lett fájl kiválasztva.';
+    }
+  }
+
+  Future<File?> getProfileImage() async {
+    try {
+      final Directory appDocumentsDir =
+          await getApplicationDocumentsDirectory();
+      File image = File('${appDocumentsDir.path}/onarckep.jpg');
+      return image;
+    } catch (e) {
+      return null;
+    }
   }
 }
