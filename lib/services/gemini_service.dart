@@ -46,6 +46,8 @@ class GeminiService {
       Olyan dolgot ne írj le, ami nem szerepel egyátalán az önéletrajz szövegben, mert azzal hitelteleníted az önéletrajzot.
       A motívációs levélben ne írj a végzettségről és munkatapasztalatokról. Inkább emeld ki azt, miért szeretnél ott dolgozni, mi az ami szimpatikus a cégben. Mindezt az álláshirdetés alapján, ne pedig alaptalanul.
       A képességeknél soft skilleket is sorolj fel.
+      Ahol az elvárt végzettségi szint alacsonyabb, mint felsőoktatás, ott ne írj bele egyetemet sem fúiskolát, mert túlképzettnek minősíthetik a munkavállalót.
+      Ahol le van írva, hogy melyik nyelven írj írj ott írd azon a myelven a motívációs levelet és a Cv-t is. Más esetben hagyatkozz az álláshirdetés és a hirdetőoldal nyelvére.
       Őrizd meg a szöveg alapján a kommunikációs stílusát, szóhasználatát a jelentkezőnek.
       Az önéletrajzban kerek mondatok helyett használj vázlatpontokat. Max 5 vázlatpont legyen minden tapasztalatnál.
       egyes szám első személyben fogalmazz, mintha magadról írnád és ne fényezd túl a pályázót.

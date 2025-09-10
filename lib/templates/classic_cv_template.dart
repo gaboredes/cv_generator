@@ -15,7 +15,7 @@ class ClassicCvTemplate {
   pw.Widget profileImg(File? profileImage) {
     if (profileImage != null) {
       return pw.Image(
-        fit: pw.BoxFit.contain,
+        fit: pw.BoxFit.cover,
         width: 100,
         height: 100,
         pw.MemoryImage(profileImage.readAsBytesSync()),

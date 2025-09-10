@@ -13,6 +13,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   final FileService _fileService = FileService();
   File? _profileImage;
   bool _isLoading = true;
+  ImageProvider? _imageProvider;
 
   @override
   void initState() {
@@ -20,24 +21,40 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     _loadProfileImage();
   }
 
-  void _loadProfileImage() async {
+  Future<void> _loadProfileImage() async {
     setState(() {
       _isLoading = true;
     });
     final File? image = await _fileService.getProfileImage();
+    if (!mounted) return;
     setState(() {
       _profileImage = image;
+      _imageProvider = image != null ? FileImage(image) : null;
       _isLoading = false;
     });
   }
 
   void _onTapProfileImage() async {
     final message = await _fileService.setProfilePicture();
-    _loadProfileImage();
+    if (message != null &&
+        message.contains('A fájl sikeresen elmentve a következő helyre:') ==
+            true) {
+      _imageProvider?.evict();
+      await _loadProfileImage();
+    }
     if (mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message!)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(hours: 1),
+          content: Text(message!),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
     }
   }
 
@@ -53,15 +70,18 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
     return GestureDetector(
       onTap: _onTapProfileImage,
-      child: _profileImage != null && _profileImage!.existsSync()
+      child:
+          _profileImage != null &&
+              _profileImage!.existsSync() &&
+              _imageProvider != null
           ? Container(
               width: 150.0,
               height: 150.0,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.contain,
-                  image: FileImage(_profileImage!, scale: 1),
+                  fit: BoxFit.fitHeight,
+                  image: _imageProvider!,
                 ),
               ),
             )
