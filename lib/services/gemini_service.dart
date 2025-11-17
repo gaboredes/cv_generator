@@ -8,7 +8,7 @@ import 'package:cv_generator/services/key_storage_service.dart';
 
 class GeminiService {
   static const String _apiUrl =
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent";
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
   static final KeyStorageService _keyStorage = KeyStorageService();
 
   /// Generates a structured CV object, a new CV summary, and a cover letter

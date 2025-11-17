@@ -128,7 +128,12 @@ class ClassicCvTemplate {
                         ),
                       ),
                       pw.Text(
-                        '${exp.cegnev} | ${exp.kezdodatum} - ${exp.zarodatum}',
+                        '${exp.cegnev}'
+                        // Ha a kezdő dátum üres, akkor semmi nem következik (a pipe-pal együtt)
+                        '${exp.kezdodatum != "" && exp.kezdodatum.isNotEmpty ? ' | ${exp.kezdodatum}' : ''}'
+                        // Ha a kezdő dátum van, akkor jöhet a záró dátum feltétel
+                        // Ha a záró dátum van, akkor '- ${exp.zarodatum}', ha nincs, akkor ''
+                        '${exp.kezdodatum != "" && exp.kezdodatum.isNotEmpty ? (exp.zarodatum != "" && exp.zarodatum.isNotEmpty ? ' - ${exp.zarodatum}' : '') : ''}',
                         style: pw.TextStyle(
                           fontSize: 12,
                           color: secondaryColor,
