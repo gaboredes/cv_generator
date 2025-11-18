@@ -177,7 +177,9 @@ class ClassicCvTemplate {
                         ),
                       ),
                       pw.Text(
-                        '${edu.intezmeny} | ${edu.zarodatum}',
+                        '${edu.intezmeny}'
+                        //
+                        '${edu.zarodatum.isNotEmpty ? '| ${edu.zarodatum}' : ''}',
                         style: pw.TextStyle(
                           fontSize: 12,
                           color: secondaryColor,
